@@ -1,0 +1,7 @@
+{
+  "name": "WatchList",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
