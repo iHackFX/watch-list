@@ -22,6 +22,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import TopFilms from './pages/TopFilms';
 
 setupIonicReact();
 
@@ -33,10 +34,13 @@ const App: React.FC = () => {
           <Menu />
           <IonRouterOutlet id="main">
             <Route path="/" exact={true}>
-              <Redirect to="/page/Inbox" />
+              <Redirect to="/Films" />
             </Route>
-            <Route path="/page/:name" exact={true}>
+            <Route path="/:name" exact={true}>
               <Page />
+            </Route>
+            <Route path="/Films" exact={true}>
+              <TopFilms />
             </Route>
           </IonRouterOutlet>
         </IonSplitPane>

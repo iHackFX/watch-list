@@ -1,0 +1,22 @@
+.FilmItem>img{
+    height: 20%;
+    border-radius: 30px;
+}
+.FilmItem{
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.FilmItem>.FilmItemContainer,
+.FilmItem *{
+    align-items: center;
+    align-content: center;
+    align-self: center;
+    text-align: center;
+}
+
+.FilmItem>.FilmItemContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
