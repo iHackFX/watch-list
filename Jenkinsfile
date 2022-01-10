@@ -13,15 +13,15 @@ pipeline {
 
    stage('Android Build') {
    steps {
-      sh 'ionic cordova build android --release'
+      sh 'ionic cap build android --release'
    }
   }
 
-   stage('APK Sign') {
-   steps {
-      sh 'jarsigner -storepass $KEY_PASSWORD -keystore keys/yourkey.keystore platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk nameApp'
-   }
-   }
+//    stage('APK Sign') {
+//    steps {
+//       sh 'jarsigner -storepass $KEY_PASSWORD -keystore keys/yourkey.keystore platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk nameApp'
+//    }
+//    }
 
    stage('Stage Web Build') {
       steps {
