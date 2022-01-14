@@ -36,9 +36,6 @@ const App: React.FC = () => {
             <Route path="/" exact={true}>
               <Redirect to="/Films" />
             </Route>
-            <Route path="/:name" exact={true}>
-              <Page />
-            </Route>
             <Route path="/Films" exact={true}>
               <TopFilms />
             </Route>
