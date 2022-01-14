@@ -4,7 +4,7 @@ import { FilmData } from "../apis/Kinopoisk";
 
 const FilmItem: React.FC<FilmItemProps> = ({ data }) => {
     return (
-        <IonRouterLink href={"/film/" + data.filmId}>
+        <IonRouterLink href={"/film/" + data.filmId} color="unset">
             <div className="FilmItem">
                 <div className="FilmItemContainer">
                     <p>
@@ -12,7 +12,6 @@ const FilmItem: React.FC<FilmItemProps> = ({ data }) => {
                         <b>{data.nameRu}({data.nameEn})</b> <br />
                         Рейтинг: {data.rating} Длительность {data.filmLength} <br />
                         Год выхода: {data.year}
-
                     </p>
                 </div>
             </div>

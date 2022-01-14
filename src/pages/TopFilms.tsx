@@ -1,4 +1,5 @@
-import { IonButtons, IonContent, IonHeader, IonItem, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonItem, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar, useIonViewWillEnter } from '@ionic/react';
+import { searchOutline } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
 import { FilmItem } from '../components/List';
 import { FilmData, getTopFilms } from "./../apis/Kinopoisk";
@@ -6,16 +7,38 @@ import './Page.css';
 
 const TopFilms: React.FC = () => {
   const [films, setFilms] = useState<FilmData[] | undefined>();
-  useEffect(() => {
-    async function a() {
-      console.log(await getTopFilms());
-      setFilms(await getTopFilms());
+  const [items, setItems] = useState<JSX.Element[]>([]);
+  const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
+
+  const pushData = (films: FilmData[]) => {
+    const max = items.length + 5;
+    const min = max - 5;
+    const newData = [];
+    for (let i = min; i < max; i++) {
+      newData.push(<FilmItem key={i} data={films[i]} />);
     }
-    a();
-  }, [true])
-  useEffect(() => {
     console.log(films)
-  }, [films])
+    setItems([
+      ...items,
+      ...newData
+    ]);
+  }
+  const loadData = (ev: any, InputFilms?: FilmData[]) => {
+    setTimeout(() => {
+      if (items.length == InputFilms?.length || items.length == films?.length) {
+        setInfiniteDisabled(true); return;
+      }
+      pushData(InputFilms || films || []);
+      if (ev != undefined) ev.target.complete();
+    }, 500);
+  }
+
+  useIonViewWillEnter(async () => {
+    let films = await getTopFilms();
+    setFilms(films);
+    loadData(null, films);
+  });
+
   return (
     <IonPage>
       <IonHeader>
@@ -24,6 +47,9 @@ const TopFilms: React.FC = () => {
             <IonMenuButton />
           </IonButtons>
           <IonTitle>Топ фильмов</IonTitle>
+          <IonButton slot='end' fill='clear'>
+            <IonIcon icon={searchOutline} />
+          </IonButton>
         </IonToolbar>
       </IonHeader>
 
@@ -34,17 +60,22 @@ const TopFilms: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonList>
-          {films ? films.map((val, idx, arr) => {
-            return (
-              <FilmItem key={idx} data={val} /> 
-              // <IonItem key={idx}>
-              //   <p>{val.nameRu}</p>
-              // </IonItem>
-            );
-          }) : <IonItem>Ничего не подгрузилось</IonItem>}
+          {items ?
+            items
+            :
+            <IonItem>
+              <p>Ничего не загружено</p>
+            </IonItem>
+          }
+          <IonInfiniteScroll onIonInfinite={loadData} threshold="100px" disabled={isInfiniteDisabled}>
+            <IonInfiniteScrollContent
+              loadingSpinner="bubbles"
+              loadingText="Загружаются данные">
+            </IonInfiniteScrollContent>
+          </IonInfiniteScroll>
         </IonList>
       </IonContent>
-    </IonPage>
+    </IonPage >
   );
 };
 
