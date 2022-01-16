@@ -1,7 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 
 async function getTopFilms() {
-    // var data: any;
     var config: AxiosRequestConfig<any> = {
         method: "get",
         headers: {
@@ -15,8 +14,9 @@ async function getTopFilms() {
 
 interface FilmData {
     filmId: number,
-    nameRu: string,
-    nameEn: string,
+    nameRu?: string,
+    nameEn?: string,
+    nameOriginal?: string,
     year: number,
     filmLength: string,
     countries?: [

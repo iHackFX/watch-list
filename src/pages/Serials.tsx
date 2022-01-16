@@ -1,15 +1,14 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonItem, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar, useIonRouter, useIonViewWillEnter } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonItem, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar, useIonViewWillEnter } from '@ionic/react';
 import { searchOutline } from 'ionicons/icons';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FilmItem } from '../components/List';
 import { FilmData, getTopFilms } from "./../apis/Kinopoisk";
 import './Page.css';
 
-const TopFilms: React.FC = () => {
+const Serials: React.FC = () => {
   const [films, setFilms] = useState<FilmData[] | undefined>();
   const [items, setItems] = useState<JSX.Element[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
-  const router = useIonRouter();
 
   const pushData = (films: FilmData[]) => {
     const max = items.length + 5;
@@ -48,9 +47,7 @@ const TopFilms: React.FC = () => {
             <IonMenuButton />
           </IonButtons>
           <IonTitle>Топ фильмов</IonTitle>
-          <IonButton onClick={()=>{
-            router.push("/Search");
-          }} slot='end' fill='clear'>
+          <IonButton slot='end' fill='clear'>
             <IonIcon icon={searchOutline} />
           </IonButton>
         </IonToolbar>
@@ -82,4 +79,4 @@ const TopFilms: React.FC = () => {
   );
 };
 
-export default TopFilms;
+export default Serials;
