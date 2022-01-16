@@ -5,12 +5,13 @@ import { Animes } from "../apis/Shikimori";
 
 const FilmItem: React.FC<FilmItemProps> = ({ data }) => {
     return (
-        <IonRouterLink href={"/film/" + data.filmId} color="unset">
-            <div className="FilmItem">
-
+        <IonItem routerLink={"/film/" + data.filmId}>
+            <div className="FilmItem center">
                 <div className="FilmItemContainer">
                     <p>
-                        <img src={data.posterUrlPreview} alt={data.nameRu || data.nameEn || data.nameOriginal || ""} /><br />
+                        <div className="FilmItem image">
+                            <img src={data.posterUrlPreview} alt={data.nameRu || data.nameEn || data.nameOriginal || ""} /><br />
+                        </div>
                         <b>
                             {
                                 data.nameRu || data.nameEn || data.nameOriginal || ""
@@ -21,28 +22,32 @@ const FilmItem: React.FC<FilmItemProps> = ({ data }) => {
                     </p>
                 </div>
             </div>
-        </IonRouterLink>
+        </IonItem>
     );
 }
 
 const AnimeItem: React.FC<AnimeItemProps> = ({ data }) => {
     return (
-        <IonRouterLink href={"/anime/" + (data.id?.toString())} color="unset">
-            <div className="FilmItem">
+        <IonItem routerLink={"/anime/" + data.id}>
+            <div className="FilmItem center">
                 <div className="FilmItemContainer">
                     <p>
-                        <img src={"https://shikimori.one/" + data.image.original} alt={data.russian || data.name || ""} /><br />
+                        <div className="FilmItem image">
+                            <img src={"https://shikimori.one/" + data.image.original} alt={data.russian || data.name || ""} /><br />
+                        </div>
                         <b>
                             {
-                                data.name || ""
+                                data.russian || data.name || ""
                             }
                         </b> <br />
+                        {data.name || ""} <br />
                         Рейтинг: {data.score} Эпизоды {data.episodes} <br />
-                        {data.released_on ? "Дата выхода: " + data.released_on?.toString() : ""}
+                        {data.released_on ? "Дата выхода: " + (new Date(data.released_on).toLocaleDateString()) + " " : ""}
+                        {data.status ? "Статус: " + data.status?.toString() : ""}
                     </p>
                 </div>
             </div>
-        </IonRouterLink>
+        </IonItem>
     );
 }
 

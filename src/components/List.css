@@ -20,3 +20,16 @@
     flex-wrap: nowrap;
     justify-content: center;
 }
+
+.center{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.FilmItem.Image{
+    height: 20%;
+    border-radius: 30px;
+}

@@ -24,6 +24,7 @@ async function getTopAnimes(page?: number) {
         },
     }
     var data = await axios.get("https://shikimori.one/api/animes", config)
+    console.log(data.data);
     return data.data;
 }
 
@@ -44,7 +45,7 @@ interface Animes {
     episodes: number,
     episodes_aired?: number,
     aired_on: string,
-    released_on?: number
+    released_on?: string
 }
 
 export { searchAnimes, getTopAnimes };
