@@ -5,19 +5,23 @@ import { Animes } from "../apis/Shikimori";
 
 const FilmItem: React.FC<FilmItemProps> = ({ data }) => {
     return (
-        <IonItem routerLink={"/film/" + data.filmId}>
+        <IonItem routerLink={"/film/" + (data.filmId || data.kinopoiskId || "")}>
             <div className="FilmItem center">
                 <div className="FilmItemContainer">
                     <p>
-                        <div className="FilmItem image">
-                            <img src={data.posterUrlPreview} alt={data.nameRu || data.nameEn || data.nameOriginal || ""} /><br />
-                        </div>
+                        <img className="FilmItem image" src={data.posterUrlPreview} alt={data.nameRu || data.nameEn || data.nameOriginal || ""} /><br />
                         <b>
                             {
                                 data.nameRu || data.nameEn || data.nameOriginal || ""
                             }
                         </b> <br />
-                        Рейтинг: {data.rating} Длительность {data.filmLength} <br />
+                        {
+                            data.rating || data.ratingKinopoisk || data.ratingImdb ?
+                                "Рейтинг: " +
+                                (data.rating || data.ratingKinopoisk || data.ratingImdb) + " "
+                                : ""
+                        }
+                        {data.filmLength ? "Длительность " + data.filmLength : ""} <br />
                         Год выхода: {data.year}
                     </p>
                 </div>
@@ -32,9 +36,7 @@ const AnimeItem: React.FC<AnimeItemProps> = ({ data }) => {
             <div className="FilmItem center">
                 <div className="FilmItemContainer">
                     <p>
-                        <div className="FilmItem image">
-                            <img src={"https://shikimori.one/" + data.image.original} alt={data.russian || data.name || ""} /><br />
-                        </div>
+                        <img className="FilmItem image" src={"https://shikimori.one/" + data.image.original} alt={data.russian || data.name || ""} /><br />
                         <b>
                             {
                                 data.russian || data.name || ""

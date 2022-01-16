@@ -25,6 +25,7 @@ import './theme/variables.css';
 import TopFilms from './pages/TopFilms';
 import SearchPage from './pages/SearchPage';
 import AnimeTop from './pages/AnimeTop';
+import TopSerials from './pages/TopSerials';
 
 setupIonicReact();
 
@@ -46,6 +47,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/Films" exact={true}>
               <TopFilms />
+            </Route>
+            <Route path="/Serials" exact={true}>
+              <TopSerials />
             </Route>
           </IonRouterOutlet>
         </IonSplitPane>
