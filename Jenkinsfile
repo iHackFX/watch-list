@@ -13,7 +13,9 @@ pipeline {
         stage('Android Build') {
             steps {
                 sh 'ionic cap build android --release'
-                sh './android/gradlew assembleRelease'
+                dir('android'){
+                    sh './gradlew assembleRelease'
+                }
             }
         }
         
