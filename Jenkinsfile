@@ -30,7 +30,7 @@ pipeline {
                 signAndroidApks (
                     keyStoreId: "${params.BUILD_CREDENTIAL_ID}",
                     keyAlias: "${params.BUILD_CREDENTIAL_ALIAS}",
-                    apksToSign: "platforms/android/**/*-unsigned.apk",
+                    apksToSign: "platforms/android/app/build/outputs/apk/**/*-unsigned.apk",
                     // androidHome: '/home/ihackfx/Android/'
                 )
             }
