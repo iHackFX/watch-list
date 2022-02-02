@@ -18,12 +18,14 @@ pipeline {
         }
         
         stage('Sign Android Build'){
-            signAndroidApks (
-                keyStoreId: "${params.BUILD_CREDENTIAL_ID}",
-                keyAlias: "${params.BUILD_CREDENTIAL_ALIAS}",
-                apksToSign: "platforms/android/**/*-unsigned.apk",
-                androidHome: '/home/ihackfx/Android/'
-            )
+            steps{
+                signAndroidApks (
+                    keyStoreId: "${params.BUILD_CREDENTIAL_ID}",
+                    keyAlias: "${params.BUILD_CREDENTIAL_ALIAS}",
+                    apksToSign: "platforms/android/**/*-unsigned.apk",
+                    // androidHome: '/home/ihackfx/Android/'
+                )
+            }
         }
 
         stage('Stage Web Build') {
