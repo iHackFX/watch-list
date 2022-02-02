@@ -13,7 +13,17 @@ pipeline {
         stage('Android Build') {
             steps {
                 sh 'ionic cap build android --release'
+                sh './android/gradlew assembleRelease'
             }
+        }
+        
+        stage('Sign Android Build'){
+            signAndroidApks (
+                keyStoreId: "${params.BUILD_CREDENTIAL_ID}",
+                keyAlias: "${params.BUILD_CREDENTIAL_ALIAS}",
+                apksToSign: "platforms/android/**/*-unsigned.apk",
+                androidHome: '/home/ihackfx/Android/'
+            )
         }
 
         stage('Stage Web Build') {
