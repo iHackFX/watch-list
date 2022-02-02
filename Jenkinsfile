@@ -18,7 +18,9 @@ pipeline {
         stage('Android Build') {
             steps {
                 dir('android'){
-                    sh './gradlew assembleRelease'
+                    withGradle {
+                        sh './gradlew assembleRelease'
+                    }
                 }
             }
         }
