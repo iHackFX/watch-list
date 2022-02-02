@@ -28,8 +28,7 @@ pipeline {
         stage('Sign Android Build'){
             steps{
                 signAndroidApks (
-                    keyStoreId: "${params.BUILD_CREDENTIAL_ID}",
-                    keyAlias: "${params.BUILD_CREDENTIAL_ALIAS}",
+                    keyStoreId: "${params.ANDROID_KEY}",
                     apksToSign: "platforms/android/app/build/outputs/apk/**/*-unsigned.apk",
                     // androidHome: '/home/ihackfx/Android/'
                 )
