@@ -9,10 +9,14 @@ pipeline {
                 sh 'npm install'
             }
         }
-
-        stage('Android Build') {
+        
+        stage('Ionic Android Make') {
             steps {
                 sh 'ionic cap build android --release'
+            }
+        }
+        stage('Android Build') {
+            steps {
                 dir('android'){
                     sh './gradlew assembleRelease'
                 }
