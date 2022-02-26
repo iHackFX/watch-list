@@ -30,7 +30,6 @@ async function getTopSerials(page: number = 1) {
         headers: headers,
     }
     var data = await axios.get("https://kinopoiskapiunofficial.tech/api/v2.2/films", config)
-    console.log(data)
     return data?.data?.items as FilmData[] || null;
 }
 
@@ -70,8 +69,7 @@ async function search(q:string):Promise<null | undefined | FilmData[]> {
         headers: headers,
     }
 
-    var data = await axios.get("https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword", config)
-    console.log(data);
+    var data = await axios.get("https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword", config);
     return data.data.films as FilmData[] || null;
 }
 

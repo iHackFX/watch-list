@@ -18,7 +18,6 @@ const TopFilms: React.FC = () => {
     for (let i = min; i < max; i++) {
       newData.push(<FilmItem key={i} data={films[i]} />);
     }
-    console.log(films)
     setItems([
       ...items,
       ...newData

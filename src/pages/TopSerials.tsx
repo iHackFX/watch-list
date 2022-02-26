@@ -1,3 +1,4 @@
+import { Plugins } from '@capacitor/core';
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonItem, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar, useIonRouter, useIonViewWillEnter } from '@ionic/react';
 import { searchOutline } from 'ionicons/icons';
 import { useState } from 'react';
@@ -5,6 +6,7 @@ import { FilmItem } from '../components/List';
 import { getTopSerials, FilmData } from "./../apis/Kinopoisk";
 import './Page.css';
 
+const { App } = Plugins;
 const TopSerials: React.FC = () => {
     const [serial, setSerials] = useState<FilmData[] | undefined>();
     const [items, setItems] = useState<JSX.Element[]>([]);
@@ -16,6 +18,7 @@ const TopSerials: React.FC = () => {
         const min = max - 20;
         const newData = [];
         var dataGet = await getTopSerials((min / 20) + 1);
+        if (dataGet == null) return;
         var serialsNew = [...serials, ...dataGet];
         for (let i = min; i < max; i++) {
             newData.push(<FilmItem key={i} data={serialsNew[i]} />);
@@ -30,7 +33,6 @@ const TopSerials: React.FC = () => {
                 ...dataGet
             ]);
         }
-        console.log(serial);
     }
     const loadData = (ev: any, InputSerials?: FilmData[]) => {
         setTimeout(async () => {
@@ -41,13 +43,21 @@ const TopSerials: React.FC = () => {
 
     useIonViewWillEnter(async () => {
         let serials = await getTopSerials(1);
-        setSerials(serials);
-        loadData(null, serials);
+        setSerials(serials || undefined);
+        loadData(null, (serials || undefined));
+    });
+
+    // Exit app
+    const ionRouter = useIonRouter();
+    document.addEventListener('ionBackButton', (ev) => {
+        if (!ionRouter.canGoBack()) {
+          App.exitApp();
+        }
     });
 
     return (
         <IonPage>
-            <IonHeader>
+            <IonHeader translucent>
                 <IonToolbar>
                     <IonButtons slot="start">
                         <IonMenuButton />

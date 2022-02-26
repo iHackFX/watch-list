@@ -23,8 +23,7 @@ async function getTopAnimes(page?: number) {
             'accept': 'application/json'
         },
     }
-    var data = await axios.get("https://shikimori.one/api/animes", config)
-    console.log(data.data);
+    var data = await axios.get("https://shikimori.one/api/animes", config);
     return data.data || null;
 }
 
