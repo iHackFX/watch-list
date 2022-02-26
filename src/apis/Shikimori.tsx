@@ -8,7 +8,7 @@ async function searchAnimes(query:string) {
         },
     }
     var data = await axios.get("", config)
-    return data.data;
+    return data.data as Animes[] || null;
 }
 
 async function getTopAnimes(page?: number) {
@@ -25,7 +25,7 @@ async function getTopAnimes(page?: number) {
     }
     var data = await axios.get("https://shikimori.one/api/animes", config)
     console.log(data.data);
-    return data.data;
+    return data.data || null;
 }
 
 interface Animes {
