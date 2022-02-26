@@ -111,3 +111,20 @@ ion-note {
 ion-item.selected {
   --color: var(--ion-color-primary);
 } 
+
+ion-menu>ion-content{
+  background: transparent;
+  backdrop-filter: blur(8px);
+}
+ion-menu,
+ion-menu>ion-content::part(scroll),
+ion-menu>ion-content::part(background),
+.list-md,
+ion-menu.md ion-item.selected,
+ion-menu.md ion-item
+{
+  --background: transparent !important;
+  --ion-background-color: transparent !important;
+  --ion-color-base: transparent !important;
+  background: transparent;
+}

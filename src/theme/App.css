@@ -1,0 +1,13 @@
+ion-toolbar {
+    --background: transparent;
+    --ion-color-base: transparent !important;
+    backdrop-filter: blur(8px);
+}
+
+ion-content,
+ion-list{
+    width: calc(100% + 1.5ch);
+}
+ion-content::part(scroll) {
+    padding-right: 15px;
+}
