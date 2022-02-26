@@ -9,12 +9,31 @@ pipeline {
                 sh 'npm install'
             }
         }
-
-        stage('Android Build') {
+        
+        stage('Ionic Android Make') {
             steps {
                 sh 'ionic cap build android --release'
             }
         }
+        stage('Android Build') {
+            steps {
+                dir('android'){
+                    withGradle {
+                        sh './gradlew assembleRelease'
+                    }
+                }
+            }
+        }
+        
+        //stage('Sign Android Build'){
+        //    steps{
+        //        signAndroidApks (
+        //            keyStoreId: "${params.ANDROID_KEY}",
+        //            apksToSign: "platforms/android/app/build/outputs/apk/**/*-unsigned.apk",
+        //            // androidHome: '/home/ihackfx/Android/'
+        //        )
+        //    }
+        //}
 
         stage('Stage Web Build') {
             steps {
