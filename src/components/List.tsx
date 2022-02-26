@@ -1,4 +1,4 @@
-import { IonItem, IonRouterLink, useIonRouter } from "@ionic/react";
+import { IonItem } from "@ionic/react";
 import "./List.css"
 import { FilmData } from "../apis/Kinopoisk";
 import { Animes } from "../apis/Shikimori";
@@ -6,10 +6,13 @@ import { Animes } from "../apis/Shikimori";
 const FilmItem: React.FC<FilmItemProps> = ({ data }) => {
     return (
         <IonItem routerLink={"/film/" + (data.filmId || data.kinopoiskId || "")}>
-            <div className="FilmItem center">
+        <div className="FilmItem center">
                 <div className="FilmItemContainer">
                     <p>
-                        <img className="FilmItem image" src={data.posterUrlPreview} alt={data.nameRu || data.nameEn || data.nameOriginal || ""} /><br />
+                        <img className="FilmItem image"
+                            src={data.posterUrlPreview}
+                            alt={data.nameRu || data.nameEn || data.nameOriginal || ""}
+                        /><br />
                         <b>
                             {
                                 data.nameRu || data.nameEn || data.nameOriginal || ""
@@ -36,7 +39,10 @@ const AnimeItem: React.FC<AnimeItemProps> = ({ data }) => {
             <div className="FilmItem center">
                 <div className="FilmItemContainer">
                     <p>
-                        <img className="FilmItem image" src={"https://shikimori.one/" + data.image.original} alt={data.russian || data.name || ""} /><br />
+                        <img
+                            className="FilmItem image"
+                            src={"https://shikimori.one/" + data.image.original} alt={data.russian || data.name || ""}
+                        /><br />
                         <b>
                             {
                                 data.russian || data.name || ""
