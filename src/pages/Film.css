@@ -1,0 +1,58 @@
+:root {
+    --FilmPageText_margin-top: calc(100vh - 50vh);
+    --blur: blur(8px);
+}
+
+.FilmPageImg img {
+    z-index: -1;
+    width: 100%;
+    position: fixed;
+    display: block;
+    margin-top: calc((var(--FilmPageText_margin-top) + 10%) * -1);
+}
+
+.FilmPageList {
+    display: block;
+    position: relative;
+    z-index: 1;
+    margin-top: var(--FilmPageText_margin-top);
+    width: calc(100% + 1.5ch);
+    height: 100%;
+    border-start-start-radius: 100px;
+    border-start-end-radius: 100px;
+    padding: 10% 0% 5% 0%;
+    backdrop-filter: var(--blur);
+    background-color: var(--ion-background-color);
+}
+
+.FilmPageList::before {
+    filter: var(--blur);
+}
+
+.FilmPageItem {
+    display: flex;
+    border-radius: 10% 10% 5% 5%;
+
+    background-color: var(--ion-background-color);
+    margin-bottom: 10vh;
+    padding: 3vh 3vh 1vh 2vh;
+    box-sizing: border-box;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.FilmPageItem>ion-title,
+.FilmPageItem>ion-text {
+    padding-right: 1pt;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.FilmPageItem>ion-text,
+.FilmPageItem>div>ion-text {
+    padding-left: 2%;
+}
+
+.FilmPageTrailer {
+    width: 100%;
+}

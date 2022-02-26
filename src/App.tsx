@@ -22,10 +22,12 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import './theme/App.css';
 import TopFilms from './pages/TopFilms';
 import SearchPage from './pages/SearchPage';
 import AnimeTop from './pages/AnimeTop';
 import TopSerials from './pages/TopSerials';
+import FilmPage from './pages/Film';
 
 setupIonicReact();
 
@@ -42,6 +44,9 @@ const App: React.FC = () => {
             <Route path="/Search" exact={true}>
               <SearchPage />
             </Route>
+            <Route path="/Search/?q=:query" exact={true}>
+              <SearchPage />
+            </Route>
             <Route path="/Anime" exact={true}>
               <AnimeTop />
             </Route>
@@ -50,6 +55,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/Serials" exact={true}>
               <TopSerials />
+            </Route>
+            <Route path="/film/:filmId" exact={true}>
+              <FilmPage />
             </Route>
           </IonRouterOutlet>
         </IonSplitPane>
