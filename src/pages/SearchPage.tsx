@@ -1,4 +1,4 @@
-import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar, useIonRouter, useIonViewDidLeave, useIonViewWillEnter } from '@ionic/react';
+import { IonBackButton, IonButton, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonList, IonPage, IonTitle, IonToolbar, useIonViewDidLeave, useIonViewWillEnter } from '@ionic/react';
 import { searchOutline } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
@@ -11,7 +11,6 @@ const SearchPage: React.FC = () => {
   const [searchString, setSearchString] = useState<string>("");
   const [filmSearchResult, setFilmSearchResult] = useState<FilmData[] | null>(null);
   const [animeSearchResult, setAnimeSearchResult] = useState<Animes[] | null>(null);
-  const router = useIonRouter();
   const { query } = useParams<{ query: string; }>();
 
   useEffect(() => {
