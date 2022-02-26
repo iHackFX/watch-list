@@ -69,9 +69,9 @@ const SearchPage: React.FC = () => {
           {
             filmSearchResult ? filmSearchResult.map((film, idx)=>{
               return (
-                <FilmItem data={film} />
+                <FilmItem key={idx} data={film} />
               );
-            }) : <IonItem>Ничего не найдено, или меньше 5 букв в строке поиска</IonItem>
+            }) : <IonItem>Ничего не найдено</IonItem>
           }
         </IonList>
       </IonContent>
