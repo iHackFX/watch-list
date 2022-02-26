@@ -112,6 +112,14 @@ ion-item.selected {
   --color: var(--ion-color-primary);
 } 
 
+ion-label{
+  color: white !important;
+  text-shadow: 1px 1px 2px black;
+  font-family: var(--ion-font-family, inherit) !important;
+  font-size: inherit !important;
+  text-overflow: ellipsis !important;
+}
+
 ion-menu>ion-content{
   background: transparent;
   backdrop-filter: blur(8px);

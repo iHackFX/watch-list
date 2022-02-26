@@ -1,6 +1,7 @@
 import {
   IonContent,
   IonIcon,
+  IonInput,
   IonItem,
   IonLabel,
   IonList,
@@ -8,10 +9,11 @@ import {
   IonMenu,
   IonMenuToggle,
   IonNote,
+  IonToggle,
 } from '@ionic/react';
 
 import { useLocation } from 'react-router-dom';
-import { archiveOutline, archiveSharp, bookmarkOutline, flameOutline, flameSharp, heartOutline, heartSharp, mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, playOutline, playSharp, trashOutline, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
+import { archiveOutline, archiveSharp, bookmarkOutline, flameOutline, flameSharp, heartOutline, heartSharp, mailOutline, mailSharp, moon, moonOutline, moonSharp, paperPlaneOutline, paperPlaneSharp, playOutline, playSharp, trashOutline, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
 import './Menu.css';
 
 interface AppPage {
@@ -64,6 +66,29 @@ const labels: AppPage[] = [
 const Menu: React.FC = () => {
   const location = useLocation();
 
+  // Query for the toggle that is used to change between themes
+  const toggle = document.querySelector('#themeToggle') as HTMLInputElement;
+
+  // Listen for the toggle check/uncheck to toggle the dark class on the <body>
+  toggle?.addEventListener('ionChange', (ev) => {
+    document.body.classList.toggle('dark');
+  });
+
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+  // Listen for changes to the prefers-color-scheme media query
+  prefersDark.addListener((e) => checkToggle(e.matches));
+
+  // Called when the app loads
+  function loadApp() {
+    checkToggle(prefersDark.matches);
+  }
+
+  // Called by the media query to check/uncheck the toggle
+  function checkToggle(shouldCheck: boolean) {
+    toggle.checked = shouldCheck;
+  }
+
   return (
     <IonMenu contentId="main" type="overlay">
       <IonContent>
@@ -93,6 +118,11 @@ const Menu: React.FC = () => {
               </IonMenuToggle>
             );
           })}
+          <IonItem>
+            <IonIcon ios={moonOutline} md={moonSharp} slot="start" />
+            <IonLabel>Темная тема</IonLabel>
+            <IonToggle onIonChange={(ev)=>{document.documentElement.classList.toggle('md')}} checked={ document.documentElement.classList.contains('md') } />
+          </IonItem>
         </IonList>
       </IonContent>
     </IonMenu>
