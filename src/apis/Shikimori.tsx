@@ -1,13 +1,16 @@
 import axios, { AxiosRequestConfig } from "axios";
 
-async function searchAnimes(query:string) {
+async function searchAnimes(query: string) {
     var config: AxiosRequestConfig<any> = {
         method: "get",
+        params: {
+            q: query
+        },
         headers: {
             'accept': 'application/json'
         },
     }
-    var data = await axios.get("", config)
+    var data = await axios.get("https://shikimori.one/api/animes/search", config)
     return data.data as Animes[] || null;
 }
 

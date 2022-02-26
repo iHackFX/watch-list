@@ -1,9 +1,9 @@
-import { IonBackButton, IonButton, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonList, IonPage, IonTitle, IonToolbar, useIonViewDidLeave, useIonViewWillEnter } from '@ionic/react';
+import { IonBackButton, IonButton, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonList, IonPage, IonTitle, IonToolbar, useIonRouter, useIonViewDidLeave, useIonViewWillEnter } from '@ionic/react';
 import { searchOutline } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { FilmData, search } from '../apis/Kinopoisk';
-import { FilmItem } from '../components/List';
+import { AnimeItem, FilmItem } from '../components/List';
 import { Animes, searchAnimes } from './../apis/Shikimori';
 import './Page.css';
 
@@ -12,6 +12,7 @@ const SearchPage: React.FC = () => {
   const [filmSearchResult, setFilmSearchResult] = useState<FilmData[] | null>(null);
   const [animeSearchResult, setAnimeSearchResult] = useState<Animes[] | null>(null);
   const { query } = useParams<{ query: string; }>();
+  const router = useIonRouter();
 
   useEffect(() => {
     if (searchString.length > 3){
@@ -19,22 +20,20 @@ const SearchPage: React.FC = () => {
         var animeRes = await searchAnimes(searchString);
         var filmRes = await search(searchString);
         setFilmSearchResult(filmRes || null);
+        setAnimeSearchResult(animeRes || null);
       })();
     }
   }, [searchString, query])
-
+  
   function searchData(query:string = searchString) {
     (async ()=>{
       var animeRes = await searchAnimes(query);
       var filmRes = await search(query);
       setFilmSearchResult(filmRes || null);
       setAnimeSearchResult(animeRes || null);
+      router.push("?q=" + searchString);
     })();
   }
-  
-  useIonViewWillEnter(() => {
-
-  })
 
   useIonViewDidLeave(() => {
     setSearchString("");
@@ -70,7 +69,14 @@ const SearchPage: React.FC = () => {
               return (
                 <FilmItem key={idx} data={film} />
               );
-            }) : <IonItem>Ничего не найдено</IonItem>
+            }) : <IonItem>Из фильмов ничего не найдено</IonItem>
+          }
+          {
+            animeSearchResult ? animeSearchResult.map((anime, idx)=>{
+              return (
+                <AnimeItem key={idx} data={anime} />
+              );
+            }) : <IonItem>Из аниме ничего не найдено</IonItem>
           }
         </IonList>
       </IonContent>
