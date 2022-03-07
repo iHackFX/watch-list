@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "951653860423",
+    "project_id": "watchlist-f46a4",
+    "storage_bucket": "watchlist-f46a4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951653860423:android:ccb925de7cd74d5eae9d62",
+        "android_client_info": {
+          "package_name": "com.ihackfx.watchlist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951653860423-njjgi48sb5evtto93jf0f3kjquo95lo5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqmUpVfH4YR_n81TY4_nGw44LE9QQIZyU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951653860423-njjgi48sb5evtto93jf0f3kjquo95lo5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
