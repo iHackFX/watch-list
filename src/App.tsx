@@ -1,4 +1,4 @@
-import { IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact } from '@ionic/react';
+import { IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact, useIonViewWillEnter } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Redirect, Route } from 'react-router-dom';
 import Menu from './components/Menu';
@@ -28,42 +28,58 @@ import SearchPage from './pages/SearchPage';
 import AnimeTop from './pages/AnimeTop';
 import TopSerials from './pages/TopSerials';
 import FilmPage from './pages/Film';
+import { useEffect } from 'react';
+import { getTheme } from './storage/settings';
+import { toggleTheme } from './components/settings';
+import Cached from './pages/Cached';
 
 setupIonicReact();
 
 const App: React.FC = () => {
-  return (
-    <IonApp>
-      <IonReactRouter>
-        <IonSplitPane contentId="main">
-          <Menu />
-          <IonRouterOutlet id="main">
-            <Route path="/" exact={true}>
-              <Redirect to="/Films" />
-            </Route>
-            <Route path="/Search" exact={true}>
-              <SearchPage />
-            </Route>
-            <Route path="/Search/?q=:query" exact={true}>
-              <SearchPage />
-            </Route>
-            <Route path="/Anime" exact={true}>
-              <AnimeTop />
-            </Route>
-            <Route path="/Films" exact={true}>
-              <TopFilms />
-            </Route>
-            <Route path="/Serials" exact={true}>
-              <TopSerials />
-            </Route>
-            <Route path="/film/:filmId" exact={true}>
-              <FilmPage />
-            </Route>
-          </IonRouterOutlet>
-        </IonSplitPane>
-      </IonReactRouter>
-    </IonApp>
-  );
+
+  // check theme state in storage
+  useEffect(()=>{
+    (async()=>{
+      var theme = await getTheme();
+      if (theme == true) toggleTheme();
+    })();
+  },[true]);
+
+return (
+  <IonApp>
+    <IonReactRouter>
+      <IonSplitPane contentId="main">
+        <Menu />
+        <IonRouterOutlet id="main">
+          <Route path="/" exact={true}>
+            <Redirect to="/Films" />
+          </Route>
+          <Route path="/Search" exact={true}>
+            <SearchPage />
+          </Route>
+          <Route path="/Search/?q=:query" exact={true}>
+            <SearchPage />
+          </Route>
+          <Route path="/Anime" exact={true}>
+            <AnimeTop />
+          </Route>
+          <Route path="/Films" exact={true}>
+            <TopFilms />
+          </Route>
+          <Route path="/Serials" exact={true}>
+            <TopSerials />
+          </Route>
+          <Route path="/Cached" exact={true}>
+            <Cached />
+          </Route>
+          <Route path="/film/:filmId" exact={true}>
+            <FilmPage />
+          </Route>
+        </IonRouterOutlet>
+      </IonSplitPane>
+    </IonReactRouter>
+  </IonApp>
+);
 };
 
 export default App;

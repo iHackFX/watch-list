@@ -1,20 +1,22 @@
 import {
   IonContent,
   IonIcon,
-  IonInput,
   IonItem,
   IonLabel,
   IonList,
   IonListHeader,
   IonMenu,
   IonMenuToggle,
-  IonNote,
   IonToggle,
+  useIonViewDidEnter,
+  useIonViewWillEnter,
 } from '@ionic/react';
-
 import { useLocation } from 'react-router-dom';
-import { archiveOutline, archiveSharp, bookmarkOutline, flameOutline, flameSharp, heartOutline, heartSharp, mailOutline, mailSharp, moon, moonOutline, moonSharp, paperPlaneOutline, paperPlaneSharp, playOutline, playSharp, trashOutline, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
+import { albumsOutline, albumsSharp, archiveOutline, archiveSharp, flameOutline, flameSharp, moonOutline, moonSharp, playOutline, playSharp } from 'ionicons/icons';
 import './Menu.css';
+import { toggleTheme } from './settings';
+import { useEffect, useState } from 'react';
+import { getTheme } from '../storage/settings';
 
 interface AppPage {
   url: string;
@@ -60,40 +62,22 @@ const labels: AppPage[] = [
     url: '/NeedToWatch',
     iosIcon: flameOutline,
     mdIcon: flameSharp
+  },
+  {
+    title: 'В кэше',
+    url: '/Cached',
+    iosIcon: albumsOutline,
+    mdIcon: albumsSharp
   }
 ];
 
 const Menu: React.FC = () => {
   const location = useLocation();
-
-  // Query for the toggle that is used to change between themes
-  const toggle = document.querySelector('#themeToggle') as HTMLInputElement;
-
-  // Listen for the toggle check/uncheck to toggle the dark class on the <body>
-  toggle?.addEventListener('ionChange', (ev) => {
-    document.body.classList.toggle('dark');
-  });
-
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-
-  // Listen for changes to the prefers-color-scheme media query
-  prefersDark.addListener((e) => checkToggle(e.matches));
-
-  // Called when the app loads
-  function loadApp() {
-    checkToggle(prefersDark.matches);
-  }
-
-  // Called by the media query to check/uncheck the toggle
-  function checkToggle(shouldCheck: boolean) {
-    toggle.checked = shouldCheck;
-  }
-
   return (
     <IonMenu contentId="main" type="overlay">
       <IonContent>
         <IonList id="inbox-list">
-          <IonListHeader>WatchList</IonListHeader>
+          <IonListHeader>Категории</IonListHeader>
           {appPages.map((appPage, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
@@ -107,7 +91,7 @@ const Menu: React.FC = () => {
         </IonList>
 
         <IonList id="labels-list">
-          <IonListHeader>Labels</IonListHeader>
+          <IonListHeader>Сохраненные</IonListHeader>
           {labels.map((appPage, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
@@ -118,10 +102,13 @@ const Menu: React.FC = () => {
               </IonMenuToggle>
             );
           })}
-          <IonItem>
+        </IonList>
+        
+        <IonList id="labels-list">
+          <IonListHeader>Быстрые настройки</IonListHeader>
+          <IonItem onClick={()=>{ toggleTheme(); }}>
             <IonIcon ios={moonOutline} md={moonSharp} slot="start" />
-            <IonLabel>Темная тема</IonLabel>
-            <IonToggle onIonChange={(ev)=>{document.documentElement.classList.toggle('md')}} checked={ document.documentElement.classList.contains('md') } />
+            <IonLabel>Сменить тему</IonLabel>
           </IonItem>
         </IonList>
       </IonContent>

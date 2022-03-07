@@ -1,4 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
+import { appendFilmCache, getCachedFilm } from "../storage/Cache";
+import storage from "../storage/StorageService";
 
 const headers = {
     'X-API-KEY': process.env.REACT_APP_KINOPOISK_API_KEY || "",
@@ -36,13 +38,16 @@ async function getTopSerials(page: number = 1) {
 async function getFilm(id:number):Promise<null | undefined | GetFilmData> {
     if (id == null) return null;
     if (id <= 0) return null;
+    let data1 = await getCachedFilm(id);
+    if (data1 != null && data1 != undefined) return data1;
     var config: AxiosRequestConfig<any> = {
         method: "get",
         headers: headers,
     }
-
-    var data = await axios.get("https://kinopoiskapiunofficial.tech/api/v2.2/films/" + id, config)
-    return data?.data as GetFilmData || null;
+    
+    var data = await (await axios.get("https://kinopoiskapiunofficial.tech/api/v2.2/films/" + id, config)).data as GetFilmData
+    await appendFilmCache(data);
+    return data || null;
 }
 
 async function getTrailer(id:number):Promise<null | undefined | GetTrailerData[]> {
@@ -71,6 +76,25 @@ async function search(q:string):Promise<null | undefined | FilmData[]> {
 
     var data = await axios.get("https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword", config);
     return data.data.films as FilmData[] || null;
+}
+
+function getDataToFilmData(data: GetFilmData){
+    if(data === null || data === undefined) return null;
+    var filmdata: FilmData = {
+        nameEn: data.nameEn || undefined,
+        nameOriginal: data.nameOriginal,
+        nameRu: data.nameRu || undefined,
+        kinopoiskId: data.kinopoiskId,
+        posterUrlPreview: data.posterUrlPreview,
+        posterUrl: data.posterUrl,
+        filmLength: data.filmLength + "",
+        ratingVoteCount: data.ratingKinopoiskVoteCount || 0,
+        year: data.year,
+        filmId: data.kinopoiskId,
+        ratingImdb: data.ratingImdb || undefined,
+        ratingKinopoisk: data.ratingKinopoisk || undefined
+    }
+    return filmdata;
 }
 
 interface FilmData {
@@ -159,5 +183,5 @@ interface GetTrailerData {
     site: "YOUTUBE" | "KINOPOISK_WIDGET" | "UNKNOWN"
 }
 
-export { getTopFilms, getTopSerials, getFilm, getTrailer, search };
+export { getTopFilms, getTopSerials, getFilm, getTrailer, getDataToFilmData, search };
 export type { FilmData, GetFilmData, GetTrailerData }
