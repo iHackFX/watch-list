@@ -97,7 +97,7 @@ function getDataToFilmData(data: GetFilmData){
     return filmdata;
 }
 
-interface FilmData {
+type FilmData = {
     filmId?: number,
     kinopoiskId?: number,
     nameRu?: string,
@@ -124,7 +124,15 @@ interface FilmData {
     ratingChange?: any
 }
 
-interface GetFilmData{
+type countries = {
+    country: string
+}
+
+type genres = {
+    genre: string
+}
+
+type GetFilmData = {
     kinopoiskId: number,
     imdbId: string,
     nameRu: null | string,
@@ -155,18 +163,10 @@ interface GetFilmData{
     isTicketsAvailable: Boolean,
     productionStatus: string | null,
     type: "FILM" | "TV_SHOW",
-    ratingMpaa: number | null,
-    ratingAgeLimits: number | null,
-    countries: [
-        {
-            country: string
-        }
-    ],
-    genres: [
-        {
-            genre: string
-        }
-    ],
+    ratingMpaa: number | string | null,
+    ratingAgeLimits: number | string | null,
+    countries: countries[],
+    genres: genres[],
     startYear: string | null,
     endYear: string | null,
     serial: Boolean,
@@ -177,7 +177,7 @@ interface GetFilmData{
     lastSync: string
 }
 
-interface GetTrailerData {
+type GetTrailerData = {
     url: string,
     name: string
     site: "YOUTUBE" | "KINOPOISK_WIDGET" | "UNKNOWN"

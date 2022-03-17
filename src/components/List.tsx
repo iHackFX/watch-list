@@ -1,7 +1,7 @@
 import { IonItem } from "@ionic/react";
 import "./List.css"
 import { FilmData } from "../apis/Kinopoisk";
-import { Animes } from "../apis/Shikimori";
+import { Anime } from "../apis/Shikimori";
 
 const FilmItem: React.FC<FilmItemProps> = ({ data }) => {
     return (
@@ -59,12 +59,12 @@ const AnimeItem: React.FC<AnimeItemProps> = ({ data }) => {
     );
 }
 
-interface FilmItemProps {
+type FilmItemProps = {
     data: FilmData
 }
 
-interface AnimeItemProps {
-    data: Animes
+type AnimeItemProps = {
+    data: Anime
 }
 
 export { FilmItem, AnimeItem }

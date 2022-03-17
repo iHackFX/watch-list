@@ -18,7 +18,7 @@ import { toggleTheme } from './settings';
 import { useEffect, useState } from 'react';
 import { getTheme } from '../storage/settings';
 
-interface AppPage {
+type AppPage = {
   url: string;
   iosIcon?: string;
   mdIcon?: string;
@@ -47,19 +47,19 @@ const appPages: AppPage[] = [
 const labels: AppPage[] = [
   {
     title: 'Просмотренное',
-    url: '/Watched',
+    url: '/Remembered/watched',
     iosIcon: archiveOutline,
     mdIcon: archiveSharp
   },
   {
     title: 'Смотрю',
-    url: '/WatchNow',
+    url: '/Remembered/watch',
     iosIcon: playOutline,
     mdIcon: playSharp
   },
   {
     title: 'Хочу посмотреть',
-    url: '/NeedToWatch',
+    url: '/Remembered/need-to-watch',
     iosIcon: flameOutline,
     mdIcon: flameSharp
   },

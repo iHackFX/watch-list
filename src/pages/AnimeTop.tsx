@@ -2,16 +2,16 @@ import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInfiniteScrol
 import { searchOutline } from 'ionicons/icons';
 import { useState } from 'react';
 import { AnimeItem } from '../components/List';
-import { getTopAnimes, Animes } from "./../apis/Shikimori";
+import { getTopAnimes, Anime } from "./../apis/Shikimori";
 import './Page.css';
 
 const AnimeTop: React.FC = () => {
-    const [anime, setAnime] = useState<Animes[] | undefined>();
+    const [anime, setAnime] = useState<Anime[] | undefined>();
     const [items, setItems] = useState<JSX.Element[]>([]);
     const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
     const router = useIonRouter();
 
-    const pushData = async (animes: Animes[]) => {
+    const pushData = async (animes: Anime[]) => {
         const max = items.length + 5;
         const min = max - 5;
         const newData = [];
@@ -31,9 +31,9 @@ const AnimeTop: React.FC = () => {
             ]);
         }
     }
-    const loadData = (ev: any, InputAnimes?: Animes[]) => {
+    const loadData = (ev: any, InputAnime?: Anime[]) => {
         setTimeout(async () => {
-            await pushData(InputAnimes || anime || []);
+            await pushData(InputAnime || anime || []);
             if (ev != undefined) ev.target.complete();
         }, 500);
     }

@@ -11,7 +11,7 @@ async function searchAnimes(query: string) {
         },
     }
     var data = await axios.get("https://shikimori.one/api/animes/search", config)
-    return data.data as Animes[] || null;
+    return data.data as Anime[] || null;
 }
 
 async function getTopAnimes(page?: number) {
@@ -30,7 +30,7 @@ async function getTopAnimes(page?: number) {
     return data.data || null;
 }
 
-interface Animes {
+type Anime = {
     id?: number,
     name: string,
     russian?: string,
@@ -51,4 +51,4 @@ interface Animes {
 }
 
 export { searchAnimes, getTopAnimes };
-export type { Animes };
+export type { Anime };

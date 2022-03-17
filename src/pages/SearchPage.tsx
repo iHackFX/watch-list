@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { FilmData, search } from '../apis/Kinopoisk';
 import { AnimeItem, FilmItem } from '../components/List';
-import { Animes, searchAnimes } from './../apis/Shikimori';
+import { Anime, searchAnimes } from './../apis/Shikimori';
 import './Page.css';
 
 const SearchPage: React.FC = () => {
   const [searchString, setSearchString] = useState<string>("");
   const [filmSearchResult, setFilmSearchResult] = useState<FilmData[] | null>(null);
-  const [animeSearchResult, setAnimeSearchResult] = useState<Animes[] | null>(null);
+  const [animeSearchResult, setAnimeSearchResult] = useState<Anime[] | null>(null);
   const { query } = useParams<{ query: string; }>();
   const router = useIonRouter();
 
