@@ -17,6 +17,7 @@ const Cached: React.FC = () => {
         const min = max - 5;
         const newData = [];
         for (let i = min; i < max; i++) {
+            if (i > items.length) continue;
             let film = getDataToFilmData(films[i]);
             if (film === null) continue;
             newData.push(<FilmItem key={i} data={film} />);
