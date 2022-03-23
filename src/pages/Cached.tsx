@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonItem, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar, useIonRouter, useIonViewWillEnter, useIonViewWillLeave } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonItem, IonList, IonMenuButton, IonPage, IonRefresher, IonRefresherContent, IonTitle, IonToolbar, RefresherEventDetail, useIonRouter, useIonViewWillEnter, useIonViewWillLeave } from '@ionic/react';
 import { searchOutline } from 'ionicons/icons';
 import { useState } from 'react';
 import { FilmData, GetFilmData, getDataToFilmData } from '../apis/Kinopoisk';
@@ -17,7 +17,6 @@ const Cached: React.FC = () => {
         const min = max - 5;
         const newData = [];
         for (let i = min; i < max; i++) {
-            if (i > items.length) continue;
             let film = getDataToFilmData(films[i]);
             if (film === null) continue;
             newData.push(<FilmItem key={i} data={film} />);
@@ -37,14 +36,22 @@ const Cached: React.FC = () => {
         }, 500);
     }
 
+    const reloadData  = async (ev: CustomEvent<RefresherEventDetail>) => {
+        setFilms([]);
+        setItems([]);
+        let films = await getCachedFilms();
+        loadData(ev, films);
+    }
+
     useIonViewWillEnter(async () => {
         let films = await getCachedFilms();
         setFilms(films);
         loadData(null, films);
     });
 
-    useIonViewWillLeave(async()=>{
+    useIonViewWillLeave(async () => {
         setFilms([]);
+        setItems([]);
     })
 
     return (
@@ -77,6 +84,9 @@ const Cached: React.FC = () => {
                             <p>Ничего не загружено</p>
                         </IonItem>
                     }
+                    <IonRefresher slot="fixed" onIonRefresh={reloadData}>
+                        <IonRefresherContent></IonRefresherContent>
+                    </IonRefresher>
                     <IonInfiniteScroll onIonInfinite={loadData} threshold="100px" disabled={isInfiniteDisabled}>
                         <IonInfiniteScrollContent
                             loadingSpinner="bubbles"
