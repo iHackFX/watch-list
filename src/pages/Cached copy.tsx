@@ -17,8 +17,7 @@ const Cached: React.FC = () => {
         const min = max - 5;
         const newData = [];
         for (let i = min; i < max; i++) {
-            if (i > items.length) continue;
-            let film = getDataToFilmData(films[i] as GetFilmData);
+            let film = getDataToFilmData(films[i]);
             if (film === null) continue;
             newData.push(<FilmItem key={i} data={film} />);
         }
@@ -39,7 +38,6 @@ const Cached: React.FC = () => {
 
     useIonViewWillEnter(async () => {
         let films = await getCachedFilms();
-        if (films.length === 0) return;
         setFilms(films);
         loadData(null, films);
     });

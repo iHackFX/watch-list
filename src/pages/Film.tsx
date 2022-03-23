@@ -1,24 +1,29 @@
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonImg, IonItem, IonList, IonMenuButton, IonPage, IonSpinner, IonTitle, IonToolbar, useIonViewDidEnter, useIonViewWillLeave, IonFab, IonFabButton, IonFabList, IonIcon, IonText, useIonRouter, useIonViewDidLeave } from '@ionic/react';
-import { add, play } from 'ionicons/icons/index';
+import { play } from 'ionicons/icons/index';
 import { useState } from 'react';
 import { useParams } from 'react-router';
 import { Browser } from '@capacitor/browser';
-import { getFilm, GetFilmData, getTrailer, GetTrailerData } from '../apis/Kinopoisk';
+import { getDataToFilmData, getFilm, GetFilmData, getTrailer, GetTrailerData } from '../apis/Kinopoisk';
 import './Film.css';
+import RememberButton from '../components/RememberButton';
+import { getTypeOfSavedItem, typeOfCategories } from '../storage/Remember';
 
 const FilmPage: React.FC = () => {
     const { filmId } = useParams<{ filmId: string; }>();
     const [data, setData] = useState<GetFilmData | null>(null);
-    const [trailerData, setTrailerData] = useState<GetTrailerData[] | null>(null)
+    const [trailerData, setTrailerData] = useState<GetTrailerData[] | null>(null);
+    const [typeInSaved, setSavedType] = useState<typeOfCategories | undefined>(undefined);
     async function open(url: string) {
         await Browser.open({ url: url.replace(/ru/g, "GG") });
     }
     useIonViewDidEnter(() => {
         (async () => {
-            var data = await getFilm(Number.parseInt(filmId) || 0)
+            var data = await getFilm(Number.parseInt(filmId) || 0);
             setData(data || null);
             var trailer = await getTrailer(Number.parseInt(filmId) || 0);
             setTrailerData(trailer || null);
+            var savedType = data ? await getTypeOfSavedItem(getDataToFilmData(data)) : undefined;
+            setSavedType(savedType ? savedType as typeOfCategories : undefined);
         })();
     });
 
@@ -114,12 +119,9 @@ const FilmPage: React.FC = () => {
                 }
             </IonContent>
             {
-                data !== null ?
-                    <IonFab vertical="bottom" horizontal="end" slot="fixed">
-                        <IonFabButton>
-                            <IonIcon icon={add} />
-                        </IonFabButton>
-                    </IonFab> : ""
+                data !== null ? typeInSaved !== null ? 
+                <RememberButton setSavedType={setSavedType} savedTypeInStorage={typeInSaved} data={getDataToFilmData(data)} /> 
+                : "" : ""
             }
             {
                 data !== null ?

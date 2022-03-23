@@ -11,11 +11,11 @@ const FilmItem: React.FC<FilmItemProps> = ({ data }) => {
                     <p>
                         <img className="FilmItem image"
                             src={data.posterUrlPreview}
-                            alt={data.nameRu || data.nameEn || data.nameOriginal || ""}
+                            alt={data.nameRu || data.nameOriginal || ""}
                         /><br />
                         <b>
                             {
-                                data.nameRu || data.nameEn || data.nameOriginal || ""
+                                data.nameRu || data.nameOriginal || ""
                             }
                         </b> <br />
                         {

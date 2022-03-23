@@ -8,6 +8,11 @@ ion-content,
 ion-list{
     width: calc(100% + 1.5ch);
 }
+
 ion-content::part(scroll) {
     padding-right: 15px;
+}
+
+ion-icon {
+    pointer-events: none;
 }

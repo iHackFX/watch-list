@@ -32,6 +32,7 @@ import { useEffect } from 'react';
 import { getTheme } from './storage/settings';
 import { toggleTheme } from './components/settings';
 import Cached from './pages/Cached';
+import Remembered from './pages/Remembered';
 
 setupIonicReact();
 
@@ -74,6 +75,9 @@ return (
           </Route>
           <Route path="/film/:filmId" exact={true}>
             <FilmPage />
+          </Route>
+          <Route path="/Remembered/:category" exact={true}>
+            <Remembered />
           </Route>
         </IonRouterOutlet>
       </IonSplitPane>

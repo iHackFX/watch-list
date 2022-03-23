@@ -44,7 +44,7 @@ const appPages: AppPage[] = [
   },
 ];
 
-const labels: AppPage[] = [
+const savedTypesMenu: AppPage[] = [
   {
     title: 'Просмотренное',
     url: '/Remembered/watched',
@@ -92,12 +92,12 @@ const Menu: React.FC = () => {
 
         <IonList id="labels-list">
           <IonListHeader>Сохраненные</IonListHeader>
-          {labels.map((appPage, index) => {
+          {savedTypesMenu.map((savedType, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
-                <IonItem className={location.pathname === appPage.url ? 'selected' : ''} routerLink={appPage.url} routerDirection="none" lines="none" detail={false}>
-                  <IonIcon slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} src={appPage.iconSrc} />
-                  <IonLabel>{appPage.title}</IonLabel>
+                <IonItem className={location.pathname === savedType.url ? 'selected' : ''} routerLink={savedType.url} routerDirection="none" lines="none" detail={false}>
+                  <IonIcon slot="start" ios={savedType.iosIcon} md={savedType.mdIcon} src={savedType.iconSrc} />
+                  <IonLabel>{savedType.title}</IonLabel>
                 </IonItem>
               </IonMenuToggle>
             );
@@ -117,3 +117,4 @@ const Menu: React.FC = () => {
 };
 
 export default Menu;
+export { savedTypesMenu };

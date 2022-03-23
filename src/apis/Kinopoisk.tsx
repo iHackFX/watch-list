@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { appendFilmCache, getCachedFilm } from "../storage/Cache";
-import storage from "../storage/StorageService";
 
 const headers = {
     'X-API-KEY': process.env.REACT_APP_KINOPOISK_API_KEY || "",
@@ -79,11 +78,7 @@ async function search(q:string):Promise<null | undefined | FilmData[]> {
 }
 
 function getDataToFilmData(data: GetFilmData){
-    if(data === null || data === undefined) return null;
     var filmdata: FilmData = {
-        nameEn: data.nameEn || undefined,
-        nameOriginal: data.nameOriginal,
-        nameRu: data.nameRu || undefined,
         kinopoiskId: data.kinopoiskId,
         posterUrlPreview: data.posterUrlPreview,
         posterUrl: data.posterUrl,
@@ -91,6 +86,9 @@ function getDataToFilmData(data: GetFilmData){
         ratingVoteCount: data.ratingKinopoiskVoteCount || 0,
         year: data.year,
         filmId: data.kinopoiskId,
+        nameOriginal: (data.nameOriginal ? data.nameOriginal : undefined),
+        nameRu: (data.nameRu ? data.nameRu : undefined),
+        nameEn: (data.nameEn ? data.nameEn : undefined),
         ratingImdb: data.ratingImdb || undefined,
         ratingKinopoisk: data.ratingKinopoisk || undefined
     }
