@@ -6,7 +6,7 @@ import storage from "./StorageService";
 async function getCachedFilm(id: number){
     var data = await storage.get('kinopoisk') as GetFilmData[] || [] as GetFilmData[];
     var filtred = data.filter(function(item) { return item.kinopoiskId === id; });
-    return filtred[0] || [] as GetFilmData[];
+    return filtred[0] || null;
 }
 
 async function appendFilmCache(data: GetFilmData) {

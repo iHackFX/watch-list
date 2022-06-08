@@ -1,13 +1,13 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonItem, IonList, IonMenuButton, IonPage, IonRefresher, IonRefresherContent, IonTitle, IonToolbar, RefresherEventDetail, useIonRouter, useIonViewWillEnter, useIonViewWillLeave } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonItem, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar, useIonRouter, useIonViewWillEnter, useIonViewWillLeave } from '@ionic/react';
 import { searchOutline } from 'ionicons/icons';
 import { useState } from 'react';
-import { FilmData, GetFilmData, getDataToFilmData } from '../apis/Kinopoisk';
+import { GetFilmData, getDataToFilmData } from '../apis/Kinopoisk';
 import { Anime, GetAnimeData } from '../apis/Shikimori';
 import { AnimeItem, FilmItem } from '../components/List';
-import { getCachedAnimes, getCachedFilm, getCachedFilms } from '../storage/Cache';
+import { getCachedAnimes, getCachedFilms } from '../storage/Cache';
 import './Page.css';
 
-const Cached: React.FC = () => {
+const Saved: React.FC = () => {
     const [films, setFilms] = useState<GetFilmData[] | undefined>();
     const [animes, setAnimes] = useState<GetAnimeData[] | undefined>();
     const [items, setItems] = useState<JSX.Element[]>([]);
@@ -102,4 +102,4 @@ const Cached: React.FC = () => {
     );
 };
 
-export default Cached;
+export default Saved;

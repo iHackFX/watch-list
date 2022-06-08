@@ -28,7 +28,7 @@ type AppPage = {
 
 const appPages: AppPage[] = [
   {
-    title: 'Топ фильмы',
+    title: 'Топ фильмов',
     url: '/Films',
     iconSrc: '/assets/svg/film.svg'
   },
@@ -47,19 +47,19 @@ const appPages: AppPage[] = [
 const savedTypesMenu: AppPage[] = [
   {
     title: 'Просмотренное',
-    url: '/Remembered/watched',
+    url: '/watched',
     iosIcon: archiveOutline,
     mdIcon: archiveSharp
   },
   {
     title: 'Смотрю',
-    url: '/Remembered/watch',
+    url: '/watch',
     iosIcon: playOutline,
     mdIcon: playSharp
   },
   {
     title: 'Хочу посмотреть',
-    url: '/Remembered/need-to-watch',
+    url: '/need-to-watch',
     iosIcon: flameOutline,
     mdIcon: flameSharp
   },

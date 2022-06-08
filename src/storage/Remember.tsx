@@ -1,5 +1,6 @@
 import { FilmData } from "../apis/Kinopoisk";
 import { Anime } from "../apis/Shikimori";
+import { AnimeItem, FilmItem } from "../components/List";
 import storage from "./StorageService";
 
 type typeOfCategories = 0 | 1 | 2;
@@ -56,7 +57,8 @@ async function getTypeOfSavedItem(data: FilmData | Anime): Promise<typeOfCategor
 }
 
 async function getSavedByType(type: typeOfCategories) {
-    return (await storage.get(categoryByTypeId[type]) as SavedData[] | null);
+    let temp: SavedData[] = await storage.get(categoryByTypeId[type]) as SavedData[];
+    return (temp || null);
 }
 
 async function save(type: typeOfCategories, data: FilmData | Anime) {
@@ -95,5 +97,24 @@ async function deleteFromStorage(data: FilmData | Anime) {
     await storage.set(categoryByTypeId[type], storageData);
 }
 
-export { save, getSavedByType, getTypeOfSavedItem, deleteFromStorage };
+async function getListOfRememberedType(type: "watched" | "watch" | "need-to-watch") {
+    let list: JSX.Element[] = [];
+    let data = await storage.get(type) as SavedData[];
+    if (data === null) return data;
+    for(let i = 0; i < data.length; i++){
+        switch(data[i].api){
+            case 'kinopoisk':
+                list.push(<FilmItem key={i} data={data[i].data as FilmData} />);
+                break;
+            case 'shikimori':
+                list.push(<AnimeItem key={i} data={data[i].data as Anime} />);
+                break;
+            default:
+                continue;
+        }
+    }
+    return list;
+}
+
+export { save, getSavedByType, getTypeOfSavedItem, deleteFromStorage, getListOfRememberedType };
 export type { SavedData, typeOfCategories };
