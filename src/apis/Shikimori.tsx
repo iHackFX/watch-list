@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
+import { appendAnimeCache, getCachedAnime } from "../storage/Cache";
 
 async function searchAnimes(query: string) {
     var config: AxiosRequestConfig<any> = {
@@ -31,6 +32,9 @@ async function getTopAnimes(page?: number) {
 }
 
 async function getAnime(id: number) {
+    let data1 = await getCachedAnime(id);
+    console.log(data1);
+    if (data1 != null && data1 != undefined) return data1;
     var config: AxiosRequestConfig<any> = {
         method: "get",
         headers: {
@@ -38,6 +42,7 @@ async function getAnime(id: number) {
         },
     }
     var data = await axios.get("https://shikimori.one/api/animes/" + id, config);
+    appendAnimeCache(data.data as GetAnimeData);
     return data.data || null;
 }
 
@@ -119,12 +124,19 @@ type GetAnimeData = {
     rates_statuses_stats: [],
     updated_at: string,
     next_episode_at: string | null,
-    genres: [],
+    genres: animeGenres[],
     studios: [],
     videos: [],
     screenshots: [],
     user_rate: string
 }
 
-export { searchAnimes, getTopAnimes, getDataToAnimeData };
+type animeGenres = {
+    id: number,
+    kind: string,
+    name: string,
+    russian: string
+}
+
+export { searchAnimes, getTopAnimes, getDataToAnimeData, getAnime };
 export type { Anime, GetAnimeData };

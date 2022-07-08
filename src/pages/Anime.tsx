@@ -3,26 +3,24 @@ import { play } from 'ionicons/icons/index';
 import { useState } from 'react';
 import { useParams } from 'react-router';
 import { Browser } from '@capacitor/browser';
-import { getDataToFilmData, getFilm, GetFilmData, getTrailer, GetTrailerData } from '../apis/Kinopoisk';
 import './Film.css';
 import RememberButton from '../components/RememberButton';
 import { getTypeOfSavedItem, typeOfCategories } from '../storage/Remember';
+import { getAnime, GetAnimeData, getDataToAnimeData } from '../apis/Shikimori';
 
-const FilmPage: React.FC = () => {
-    const { filmId } = useParams<{ filmId: string; }>();
-    const [data, setData] = useState<GetFilmData | null>(null);
-    const [trailerData, setTrailerData] = useState<GetTrailerData[] | null>(null);
+const AnimePage: React.FC = () => {
+    const { animeId } = useParams<{ animeId: string; }>();
+    const [data, setData] = useState<GetAnimeData | null>(null);
     const [typeInSaved, setSavedType] = useState<typeOfCategories | undefined>(undefined);
     async function open(url: string) {
-        await Browser.open({ url: url.replace(/ru/g, "GG") });
+        // await Browser.open({ url: url.replace(/ru/g, "GG") });
+        await Browser.open({url: "https://shikimori.one/" + url})
     }
     useIonViewDidEnter(() => {
         (async () => {
-            var data = await getFilm(Number.parseInt(filmId) || 0);
+            var data = await getAnime(Number.parseInt(animeId) || 0);
             setData(data || null);
-            var trailer = await getTrailer(Number.parseInt(filmId) || 0);
-            setTrailerData(trailer || null);
-            var savedType : typeOfCategories | undefined = data ? await getTypeOfSavedItem(getDataToFilmData(data)) : undefined;
+            var savedType : typeOfCategories | undefined = data ? await getTypeOfSavedItem(getDataToAnimeData(data)) : undefined;
             console.log(savedType);
             setSavedType(savedType != undefined ? savedType as typeOfCategories : undefined);
         })();
@@ -30,8 +28,11 @@ const FilmPage: React.FC = () => {
 
     useIonViewDidLeave(() => {
         setData(null);
-        setTrailerData(null);
     });
+    
+    useIonViewWillLeave(() => {
+        setData(null);
+    })
 
     function getIdYoutube(url: string) {
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -67,37 +68,28 @@ const FilmPage: React.FC = () => {
                         :
                         <div>
                             <div className='FilmPageImg'>
-                                <span><img src={data?.posterUrl} /></span>
+                                <span><img src={"https://shikimori.one/" + data?.image.original} /></span>
                             </div>
                             <div className='FilmPageList'>
                                 <div className='FilmPageItem'>
-                                    <IonTitle>{data?.nameRu || data?.nameEn || data.nameOriginal}</IonTitle>
-
-                                    <IonText>
-                                        {
-                                            "Страны: " + data.countries.map((data) => {
-                                                return (data.country)
-                                            })
-                                        }
-                                    </IonText>
-
+                                    <IonTitle>{data?.russian || data?.name}</IonTitle>
+                                    <IonTitle>{data?.japanese || ""}</IonTitle>
                                     <IonText>
                                         {
                                             "Жанр: " + data.genres.map((data) => {
-                                                return (data.genre)
+                                                return (data.russian || data.name || "")
                                             })
                                         }
                                     </IonText>
 
 
-                                    <IonText>{data.description}</IonText>
-                                    <IonText>{data.shortDescription}</IonText>
+                                    <IonText>{data.description?.replace(/ *\[[^\]]*]/, '')}</IonText>
 
 
                                     <IonText>
-                                        Дата выхода: {data.type == "TV_SHOW" ? data.startYear + " - " + data.endYear : data.year}
+                                        Дата выхода: {data.aired_on}
                                     </IonText>
-
+{/* 
                                     {
                                         trailerData ? 
                                             trailerData.map((val, idx) => {
@@ -113,7 +105,7 @@ const FilmPage: React.FC = () => {
                                                 }
                                             })
                                             : ""
-                                    }
+                                    } */}
                                 </div>
                             </div>
                         </div>
@@ -121,12 +113,12 @@ const FilmPage: React.FC = () => {
             </IonContent>
             {
                 data !== null ? typeInSaved !== null ? 
-                <RememberButton setSavedType={setSavedType} savedTypeInStorage={typeInSaved} data={getDataToFilmData(data)} /> 
+                <RememberButton setSavedType={setSavedType} savedTypeInStorage={typeInSaved} data={getDataToAnimeData(data)} /> 
                 : "" : ""
             }
             {
                 data !== null ?
-                    <IonFab vertical="bottom" horizontal="start" slot="fixed" onClick={() => { open(data.webUrl) }}>
+                    <IonFab vertical="bottom" horizontal="start" slot="fixed" onClick={() => { open(data.url) }}>
                         <IonFabButton>
                             <IonIcon icon={play} />
                         </IonFabButton>
@@ -136,4 +128,5 @@ const FilmPage: React.FC = () => {
     );
 };
 
-export default FilmPage;
+export default AnimePage;
+export { AnimePage };

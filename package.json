@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@awesome-cordova-plugins/firebase-analytics": "^5.44.0",
     "@capacitor/android": "3.3.4",
     "@capacitor/app": "1.0.7",
     "@capacitor/browser": "^1.0.7",
@@ -24,6 +25,9 @@
     "@types/react-router": "^5.1.11",
     "@types/react-router-dom": "^5.1.7",
     "axios": "^0.24.0",
+    "cordova-annotated-plugin-android": "^1.0.4",
+    "cordova-play-services-version-adapter": "^1.1.0",
+    "cordova-plugin-analytics": "^2.0.0",
     "ionicons": "^5.4.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

@@ -33,7 +33,7 @@ const appPages: AppPage[] = [
     iconSrc: '/assets/svg/film.svg'
   },
   {
-    title: 'Сериалы',
+    title: 'Топ Сериалов',
     url: '/Serials',
     iconSrc: '/assets/svg/serials.svg'
   },

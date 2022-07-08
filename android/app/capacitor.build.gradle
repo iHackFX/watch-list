@@ -15,9 +15,9 @@ dependencies {
     implementation project(':capacitor-keyboard')
     implementation project(':capacitor-status-bar')
     implementation project(':capacitor-storage')
-
+    implementation "com.google.firebase:firebase-analytics:15.0.0"
 }
-
+apply from: "../../node_modules/cordova-annotated-plugin-android/build.gradle"
 
 if (hasProperty('postBuildExtras')) {
   postBuildExtras()

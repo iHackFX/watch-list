@@ -28,6 +28,7 @@ import SearchPage from './pages/SearchPage';
 import AnimeTop from './pages/AnimeTop';
 import TopSerials from './pages/TopSerials';
 import FilmPage from './pages/Film';
+import AnimePage from './pages/Anime';
 import { useEffect } from 'react';
 import { getTheme } from './storage/settings';
 import { toggleTheme } from './components/settings';
@@ -75,6 +76,9 @@ return (
           </Route>
           <Route path="/film/:filmId" exact={true}>
             <FilmPage />
+          </Route>
+          <Route path="/anime/:animeId" exact={true}>
+            <AnimePage />
           </Route>
           <Route path="/watch" exact={true}>
             <WatchPage />

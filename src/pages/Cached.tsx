@@ -1,5 +1,5 @@
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonItem, IonList, IonMenuButton, IonPage, IonRefresher, IonRefresherContent, IonTitle, IonToolbar, RefresherEventDetail, useIonRouter, useIonViewWillEnter, useIonViewWillLeave } from '@ionic/react';
-import { searchOutline } from 'ionicons/icons';
+import { constructOutline, searchOutline } from 'ionicons/icons';
 import { useState } from 'react';
 import { FilmData, GetFilmData, getDataToFilmData } from '../apis/Kinopoisk';
 import { Anime, GetAnimeData } from '../apis/Shikimori';
@@ -8,18 +8,22 @@ import { getCachedAnimes, getCachedFilm, getCachedFilms } from '../storage/Cache
 import './Page.css';
 
 const Cached: React.FC = () => {
-    const [films, setFilms] = useState<GetFilmData[] | undefined>();
-    const [animes, setAnimes] = useState<GetAnimeData[] | undefined>();
+    const [data, setData] = useState<(GetFilmData | GetAnimeData)[] | undefined>();
     const [items, setItems] = useState<JSX.Element[]>([]);
     const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
     const router = useIonRouter();
 
-    const pushData = (data: GetFilmData[] | GetAnimeData[]) => {
+    const pushData = (data: (GetFilmData | GetAnimeData)[]) => {
         const max = items.length + 5;
         const min = max - 5;
         const newData = [];
         for (let i = min; i < max; i++) {
             let dataD = data[i];
+            console.log({dataD, data});
+            if (dataD === undefined) {
+                console.log(dataD);
+                break;
+            }
             if ("kinopoiskId" in dataD){
                 let film = getDataToFilmData(dataD);
                 if (film === null) continue;
@@ -34,12 +38,9 @@ const Cached: React.FC = () => {
             ...newData
         ]);
     }
-    const loadData = (ev: any, InputFilms?: any[]) => {
+    const loadData = (ev: any, InputFilms?: (GetFilmData | GetAnimeData)[]) => {
         setTimeout(() => {
-            if (items.length == InputFilms?.length || items.length == films?.length) {
-                setInfiniteDisabled(true); return;
-            }
-            pushData(InputFilms || films || animes || []);
+            pushData(InputFilms || data || []);
             if (ev != undefined) ev.target.complete();
         }, 500);
     }
@@ -48,16 +49,13 @@ const Cached: React.FC = () => {
         let films = await getCachedFilms();
         let animes = await getCachedAnimes();
         if (films.length === 0) return;
-        setFilms(films);
-        setAnimes(animes);
-        let data = new Array();
-        data.concat(films);
-        data.concat(animes);
+        var data : (GetFilmData | GetAnimeData)[] = [...films, ...animes];
+        setData(data);
         loadData(null, data);
     });
 
     useIonViewWillLeave(async()=>{
-        setFilms([]);
+        setData([]);
     })
 
     return (

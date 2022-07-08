@@ -62,10 +62,12 @@ async function getSavedByType(type: typeOfCategories) {
 }
 
 async function save(type: typeOfCategories, data: FilmData | Anime) {
-    if ('episodes' in data)
+    if ('episodes' in data){
         saveDataInStorage({ type, api: "shikimori", data });
-    if ('filmId' in data)
+    }
+    else if ('filmId' in data){
         saveDataInStorage({ type, api: "kinopoisk", data });
+    }
     else
         throw "Не возможно записать данные неизвестного типа";
     return true;

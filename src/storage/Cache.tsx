@@ -22,7 +22,7 @@ async function getCachedFilms() {
 async function getCachedAnime(id: number){
     var data = await storage.get('shikimori') as GetAnimeData[] || [] as GetAnimeData[];
     var filtred = data.filter(function(item) { return item.id === id; });
-    return filtred[0] || [] as GetAnimeData[];
+    return filtred[0] || null;
 }
 
 async function appendAnimeCache(data: GetAnimeData) {
